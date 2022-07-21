@@ -1,0 +1,103 @@
+ %{
+#include<stdio.h>
+int c_count=0;
+%}
+%%
+"/*"[^*/]*"*/" {c_count++;} /*for single and multiple line comments*/
+"//".* {c_count++;} /*for single line comments*/
+%%
+int main( int argc, char **argv)
+{
+FILE *f1,*f2;
+if(argc>1) /*Pass two filenames for execution*/
+{
+f1=fopen(argv[1],"r"); /*open first file for reading*/
+if(!f1) /*not able to open file*/
+{
+printf("file error \n");
+exit(1);
+}
+yyin=f1;
+f2=fopen(argv[2],"w"); /*open second file for writing*/
+if(!f2) /*not able to open file*/
+{
+printf("Error");
+exit(1);
+}
+yyout=f2;
+yylex();
+printf("Number of Comment Lines: %d\n",c_count);
+}
+return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Lex File
+%{
+#include <stdio.h>
+#include "y.tab.h"
+extern yylval;
+%}
+%%
+[ \t] ;
+[+|-|*|/|=|<|>] {printf("operator is %s\n",yytext);return OP;}
+[0-9]+ {yylval = atoi(yytext); printf("numbers is %d\n",yylval); return DIGIT;}
+int|char|bool|float|void|for|do|while|if|else|return|void {printf("keyword is
+%s\n",yytext);return KEY;}
+[a-zA-Z0-9]+ {printf("identifier is %s\n",yytext);return ID;}
+. ;
+%%
+Yacc File
+%{
+#include <stdio.h>
+#include <stdlib.h>
+int id=0, dig=0, key=0, op=0;
+%}
+%token DIGIT ID KEY OP
+%%
+input:
+DIGIT input { dig++; }
+| ID input { id++; }
+| KEY input { key++; }
+| OP input {op++;}
+| DIGIT { dig++; }
+| ID { id++; }
+| KEY { key++; }
+| OP { op++;}
+;
+%%
+#include <stdio.h>
+extern int yylex();
+extern int yyparse();
+extern FILE *yyin;
+main()
+{
+FILE *myfile = fopen("sam_input.c", "r");
+if (!myfile) {
+printf("I can't open sam_input.c!");
+return -1;
+}
+yyin = myfile;
+do {
+yyparse();
+} while (!feof(yyin));
+printf("numbers = %d\nKeywords = %d\nIdentifiers = %d\noperators = %d\n",
+dig, key,id, op);
+}
+void yyerror() {
+printf("EEK, parse error! Message: ");
+exit(-1);
+}
+

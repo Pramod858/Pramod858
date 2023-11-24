@@ -2,6 +2,7 @@
 <h3 align="center">A passionate data scientist from India</h3>
 
 - 📫 How to reach me **pramodbadiger45@gmail.com**
+- 🕸️ Portfolio [Visit](https://pramodbadiger.netlify.app/)
 
 
 ## 🌐 Socials:

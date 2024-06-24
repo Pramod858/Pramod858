@@ -1,5 +1,5 @@
 <h1 align="center">Hi 👋, I'm Pramod</h1>
-<h3 align="center">A passionate data scientist from India</h3>
+<h3 align="center">Open to Work</h3>
 
 - 📫 How to reach me **pramodbadiger45@gmail.com**
 - 🕸️ Portfolio [Visit](https://pramodbadiger.netlify.app/)
